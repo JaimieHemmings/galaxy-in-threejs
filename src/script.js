@@ -59,8 +59,7 @@ const generateGalaxy = () =>
         const i3 = i * 3
 
         // Position
-        const radius = Math.random() * parameters.radius
-        if (radius < 0.3 && Math.random() > 0.1) continue;
+        const radius = Math.sqrt(Math.random()) * parameters.radius
         const spinAngle = radius * parameters.spin
         const branchAngle = ((i % parameters.branches) / parameters.branches) * (Math.PI * 2)
 
@@ -174,6 +173,12 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
+// Controls
+controls.enableZoom = false
+controls.enablePan = false
+
+controls.enableDamping = true
+
 /**
  * Animate
  */
@@ -185,6 +190,9 @@ const tick = () =>
 
     // Update controls
     controls.update()
+
+    // rotate the galaxy
+    points.rotation.y = elapsedTime * 0.1    
 
     // Render
     renderer.render(scene, camera)
